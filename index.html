@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گالری طلا شروین - صفحه ارتباط</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', Tahoma, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 450px;
+            width: 100%;
+        }
+        
+        .logo-container {
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .brand-logo {
+            /* برای تغییر سایز لوگو، مقدار width را ویرایش کنید */
+            width: 220px;  /* تغییر این عدد برای تنظیم سایز لوگو */
+            height: auto;
+            margin-bottom: -60px;
+        }
+        
+        .brand-logo img {
+            width: 100%;
+            height: auto;
+            /* حذف تمام استایل‌های اضافی */
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            border-radius: 0;
+        }
+        
+        .logo h1 {
+            font-size: 2.1rem;
+            margin-bottom: 8px;
+            color: #85d0cb;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo p {
+            font-size: 1rem;
+            opacity: 0.7;
+            font-weight: 300;
+        }
+        
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 35px;
+        }
+        
+        .link-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(133, 208, 203, 0.15);
+            color: #fff;
+            text-decoration: none;
+            padding: 16px 20px;
+            border-radius: 14px;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(133, 208, 203, 0.2);
+            position: relative;
+            overflow: hidden;
+            max-width: 340px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        .link-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(133, 208, 203, 0.1) 0%, rgba(133, 208, 203, 0.05) 100%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .link-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(133, 208, 203, 0.15);
+            border: 1px solid rgba(133, 208, 203, 0.3);
+        }
+        
+        .link-button:hover::before {
+            opacity: 1;
+        }
+        
+        .link-button i {
+            font-size: 1.2rem;
+            color: #85d0cb;
+        }
+        
+        .footer {
+            margin-top: 50px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            font-weight: 300;
+        }
+        
+        /* افکت نور پس‌زمینه */
+        .bg-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(133, 208, 203, 0.1) 0%, rgba(133, 208, 203, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* راهنمای ویرایش */
+        .edit-guide {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 30px;
+            font-size: 0.8rem;
+            text-align: right;
+            border-right: 3px solid #85d0cb;
+        }
+
+        .edit-guide h3 {
+            color: #85d0cb;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .edit-guide ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .edit-guide li {
+            margin-bottom: 8px;
+            opacity: 0.8;
+        }
+
+        .edit-guide code {
+            background: rgba(133, 208, 203, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .size-control {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .size-control button {
+            background: rgba(133, 208, 203, 0.2);
+            color: #85d0cb;
+            border: 1px solid #85d0cb;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .size-control button:hover {
+            background: rgba(133, 208, 203, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="bg-glow"></div>
+    
+    <div class="container">
+        <div class="logo-container">
+            <div class="brand-logo">
+                <!-- لوگو کاملاً ساده و بدون هیچ استایل اضافی -->
+                <img src="https://s6.uupload.ir/files/hia_copy_zd8w.png" alt="گالری طلا شروین" id="logoImage">
+            </div>
+            <div class="logo">
+                <h1>گالری طلا شروین</h1>
+                <p>ارتباط با ما</p>
+            </div>
+        </div>
+        
+        <div class="links">
+            <a href="https://maps.google.com/?q=آدرس+فروشگاه+طلا+شروین" class="link-button" target="_blank">
+                <i class="fas fa-map-marker-alt"></i>
+                آدرس گوگل مپ
+            </a>
+            
+            <a href="https://t.me/joinchat/کانال-لحظه-ای-قیمت-طلا" class="link-button" target="_blank">
+                <i class="fas fa-chart-line"></i>
+                کانال لحظه‌ای قیمت طلا
+            </a>
+            
+            <a href="https://wa.me/989123456789" class="link-button" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+                واتساپ
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 گالری طلا شروین. تمامی حقوق محفوظ است.</p>
+        </div>
+
+        
+    <script>
+        function changeLogoSize(size) {
+            const logo = document.querySelector('.brand-logo');
+            logo.style.width = size + 'px';
+        }
+
+        // مقدار پیش‌فرض لوگو
+        document.addEventListener('DOMContentLoaded', function() {
+            const logo = document.querySelector('.brand-logo');
+            logo.style.width = '220px'; // سایز متوسط به عنوان پیش‌فرض
+        });
+    </script>
+</body>
+</html>
