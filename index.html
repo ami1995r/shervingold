@@ -1,264 +1,31 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>گالری طلا شروین</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap">
-    <style>
-        /* استایل‌ها همون قبلی */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Vazirmatn', Tahoma, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .container {
-            max-width: 450px;
-            width: 100%;
-        }
-        
-        .logo-container {
-            margin-bottom: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .brand-logo {
-            width: 180px;
-            margin-bottom: 25px;
-        }
-        
-        .brand-logo img {
-            width: 100%;
-            height: auto;
-        }
-        
-        .logo h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: #85d0cb;
-        }
-        
-        .links {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin-top: 20px;
-            width: 100%;
-            max-width: 340px;
-            margin: 0 auto;
-        }
-        
-        .link-button, .price-button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            background: rgba(133, 208, 203, 0.15);
-            color: #fff;
-            text-decoration: none;
-            padding: 18px 25px;
-            border-radius: 14px;
-            font-weight: 500;
-            font-size: 1.05rem;
-            transition: all 0.4s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(133, 208, 203, 0.2);
-            width: 100%;
-            cursor: pointer;
-        }
-        
-        .link-button:hover, .price-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(133, 208, 203, 0.15);
-            background: rgba(133, 208, 203, 0.25);
-        }
-        
-        .price-panel {
-            background: rgba(133, 208, 203, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(133, 208, 203, 0.2);
-            border-radius: 16px;
-            padding: 20px;
-            margin-top: 15px;
-            display: none;
-        }
-        
-        .price-panel.active {
-            display: block;
-        }
-        
-        .price-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            margin: 8px 0;
-        }
-        
-        .price-value {
-            direction: ltr;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .up { color: #4caf50; }
-        .down { color: #f44336; }
-        .neutral { color: #b0b0b0; }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Test API</title>
 </head>
 <body>
-    <div class="container">
-        <div class="logo-container">
-            <div class="brand-logo">
-                <img src="https://s6.uupload.ir/files/hia_copy_zd8w.png" alt="گالری طلا شروین">
-            </div>
-            <div class="logo">
-                <h1>گالری طلا شروین</h1>
-                <p>ارتباط با ما</p>
-            </div>
-        </div>
-        
-        <div class="links">
-            <div class="price-button" onclick="togglePricePanel()">
-                <i class="fas fa-chart-line"></i>
-                قیمت لحظه‌ای
-                <span id="priceIndicator" class="neutral">●</span>
-            </div>
-            
-            <div class="price-panel" id="pricePanel">
-                <div id="priceContainer">
-                    <div style="text-align: center; padding: 20px; color: #85d0cb;">
-                        <i class="fas fa-spinner fa-spin"></i>
-                        <p>در حال دریافت قیمت‌ها...</p>
-                    </div>
-                </div>
-            </div>
-            
-            <a href="https://maps.google.com/?q=آدرس+فروشگاه+طلا+شروین" class="link-button" target="_blank">
-                <i class="fas fa-map-marker-alt"></i>
-                آدرس گوگل مپ
-            </a>
-            
-            <a href="https://t.me/joinchat/کانال-لحظه-ای-قیمت-طلا" class="link-button" target="_blank">
-                <i class="fab fa-telegram"></i>
-                کانال تلگرام
-            </a>
-            
-            <a href="https://wa.me/989123456789" class="link-button" target="_blank">
-                <i class="fab fa-whatsapp"></i>
-                واتساپ
-            </a>
-        </div>
-    </div>
+    <div id="result">در حال تست API...</div>
 
     <script>
         const API_URL = "https://BrsApi.ir/Api/Market/Gold_Currency.php?key=FreeE4uMPdiKOdaCSkCF5AsR7Qw1kh4w";
-        let pricePanelVisible = false;
-
-        // قدم ۱: تست API
+        
         async function testAPI() {
             try {
-                console.log('🔍 در حال تست API...');
                 const response = await fetch(API_URL);
                 const data = await response.json();
-                console.log('✅ داده‌های API:', data);
-                return data;
+                
+                console.log('✅ داده‌های دریافتی از API:', data);
+                document.getElementById('result').innerHTML = 
+                    '<h3>داده‌های دریافتی:</h3><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                    
             } catch (error) {
-                console.error('❌ خطا در تست API:', error);
-                return null;
+                console.error('❌ خطا:', error);
+                document.getElementById('result').innerHTML = 'خطا: ' + error.message;
             }
         }
-
-        // قدم ۲: نمایش/مخفی کردن پنل
-        function togglePricePanel() {
-            const panel = document.getElementById('pricePanel');
-            pricePanelVisible = !pricePanelVisible;
-            
-            if (pricePanelVisible) {
-                panel.classList.add('active');
-                loadPrices();
-            } else {
-                panel.classList.remove('active');
-            }
-        }
-
-        // قدم ۳: فرمت قیمت
-        function formatPrice(price) {
-            return new Intl.NumberFormat('fa-IR').format(price);
-        }
-
-        // قدم ۴: دریافت قیمت‌ها
-        async function loadPrices() {
-            const container = document.getElementById('priceContainer');
-            
-            try {
-                console.log('📡 در حال دریافت قیمت‌ها...');
-                const data = await testAPI();
-                
-                if (!data) {
-                    throw new Error('API پاسخ نداد');
-                }
-                
-                // اینجا باید بر اساس ساختر واقعی API تنظیم کنیم
-                displayPrices(data);
-                
-            } catch (error) {
-                console.error('خطا:', error);
-                container.innerHTML = `
-                    <div style="color: #f44336; text-align: center; padding: 20px;">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p>خطا در دریافت قیمت‌ها</p>
-                        <p style="font-size: 0.8rem;">${error.message}</p>
-                    </div>
-                `;
-            }
-        }
-
-        // قدم ۵: نمایش قیمت‌ها
-        function displayPrices(data) {
-            const container = document.getElementById('priceContainer');
-            
-            // این قسمت رو بعد از دیدن ساختار داده‌ها کامل می‌کنیم
-            let html = `
-                <div style="margin-bottom: 20px; color: #85d0cb;">
-                    <i class="fas fa-coins"></i>
-                    <h3>قیمت‌های لحظه‌ای</h3>
-                </div>
-                <div style="color: #f44336; padding: 10px; background: rgba(244,67,54,0.1); border-radius: 8px; margin-bottom: 15px;">
-                    ⚠️ لطفاً ساختار داده‌ها رو از کنسول کپی کن و بهم بگو
-                </div>
-                <pre style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; font-size: 0.8rem; text-align: left; direction: ltr;">
-${JSON.stringify(data, null, 2)}
-                </pre>
-            `;
-            
-            container.innerHTML = html;
-        }
-
-        // شروع
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 صفحه لود شد. برای تست API آماده‌ایم!');
-        });
+        
+        testAPI();
     </script>
 </body>
 </html>
