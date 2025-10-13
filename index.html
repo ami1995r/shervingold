@@ -1,31 +1,825 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Test API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گالری طلا شروین - قیمت لحظه‌ای</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazirmatn', Tahoma, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 450px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .logo-container {
+            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        
+        .brand-logo {
+            width: 280px;
+            height: auto;
+            margin-bottom: -30px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .brand-logo img {
+            width: 200%;
+            height: auto;
+            max-width: 100%;
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            border-radius: 0;
+        }
+        
+        .logo-text {
+            text-align: center;
+            width: 100%;
+        }
+        
+        .logo h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #85d0cb;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1.3;
+        }
+        
+        .logo p {
+            font-size: 1rem;
+            opacity: 0.8;
+            font-weight: 400;
+            line-height: 0.5;
+        }
+        
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: -25px;
+            width: 100%;
+            max-width: 340px;
+        }
+        
+        .link-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(133, 208, 203, 0.15);
+            color: #fff;
+            text-decoration: none;
+            padding: 18px 25px;
+            border-radius: 14px;
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(133, 208, 203, 0.2);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+        
+        .link-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(133, 208, 203, 0.15);
+            border: 1px solid rgba(133, 208, 203, 0.3);
+            background: rgba(133, 208, 203, 0.25);
+        }
+        
+        .link-button i {
+            font-size: 1.3rem;
+            color: #85d0cb;
+        }
+        
+        /* استایل بخش قیمت‌ها */
+        .price-section {
+            width: 100%;
+            max-width: 340px;
+            margin: 10px 0;
+        }
+        
+        .price-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(133, 208, 203, 0.15);
+            color: #fff;
+            text-decoration: none;
+            padding: 18px 25px;
+            border-radius: 14px;
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(133, 208, 203, 0.2);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            cursor: pointer;
+        }
+        
+        .price-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(133, 208, 203, 0.15);
+            border: 1px solid rgba(133, 208, 203, 0.3);
+            background: rgba(133, 208, 203, 0.25);
+        }
+        
+        .price-button i {
+            font-size: 1.3rem;
+            color: #85d0cb;
+        }
+        
+        /* پنل قیمت‌ها */
+        .price-panel {
+            background: rgba(133, 208, 203, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(133, 208, 203, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .price-panel.active {
+            display: block;
+        }
+        
+        .price-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            color: #85d0cb;
+        }
+        
+        .price-header i {
+            font-size: 1.4rem;
+        }
+        
+        .price-header h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .price-category {
+            margin-bottom: 25px;
+        }
+        
+        .category-title {
+            color: #85d0cb;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(133, 208, 203, 0.3);
+        }
+        
+        .price-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .price-label {
+            font-weight: 500;
+            color: #e0e0e0;
+            font-size: 0.9rem;
+        }
+        
+        .price-value {
+            font-weight: 600;
+            direction: ltr;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .price-arrow {
+            font-size: 0.9rem;
+        }
+        
+        .up {
+            color: #4caf50;
+        }
+        
+        .down {
+            color: #f44336;
+        }
+        
+        .neutral {
+            color: #b0b0b0;
+        }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #f44336;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        .offline-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #b0b0b0;
+            margin-right: 8px;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.4; }
+            100% { opacity: 1; }
+        }
+        
+        .price-time {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            color: #85d0cb;
+        }
+        
+        .time-status {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 0.7rem;
+            opacity: 0.7;
+            color: #85d0cb;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #85d0cb;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 20px;
+            color: #f44336;
+            background: rgba(244, 67, 54, 0.1);
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+        
+        .offline-notice {
+            text-align: center;
+            padding: 10px;
+            color: #ff9800;
+            background: rgba(255, 152, 0, 0.1);
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 0.8rem;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            font-size: 0.8rem;
+            opacity: 0.6;
+            font-weight: 300;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .bg-glow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(133, 208, 203, 0.1) 0%, rgba(133, 208, 203, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .brand-logo {
+                width: 150px;
+            }
+            
+            .price-panel {
+                padding: 15px;
+            }
+            
+            .price-item {
+                padding: 10px 12px;
+            }
+            
+            .link-button, .price-button {
+                padding: 16px 20px;
+            }
+            
+            .price-label, .price-value {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div id="result">در حال تست API...</div>
+    <div class="bg-glow"></div>
+    
+    <div class="container">
+        <div class="logo-container">
+            <div class="brand-logo">
+                <img src="https://s6.uupload.ir/files/hia_copy_zd8w.png" alt="گالری طلا شروین">
+            </div>
+            <div class="logo">
+                <div class="logo-text">
+                    <h1>گالری طلا شروین</h1>
+                    <p>قیمت لحظه‌ای طلا و سکه</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="links">
+            <!-- دکمه قیمت لحظه‌ای -->
+            <div class="price-section">
+                <div class="price-button" onclick="togglePricePanel()">
+                    <i class="fas fa-chart-line"></i>
+                    قیمت لحظه‌ای
+                    <span id="priceIndicator" class="live-indicator"></span>
+                </div>
+                
+                <div class="price-panel" id="pricePanel">
+                    <div class="price-header">
+                        <i class="fas fa-coins"></i>
+                        <h3>قیمت‌های لحظه‌ای</h3>
+                    </div>
+                    
+                    <div id="priceContainer">
+                        <div class="loading">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>در حال دریافت قیمت‌ها...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="price-time">
+                        <span id="updateTime">آخرین بروزرسانی: -</span>
+                    </div>
+                    <div class="time-status">
+                        <span id="timeStatus">وضعیت: بررسی زمان...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- لینک‌های دیگر -->
+            <a href="https://maps.app.goo.gl/yXq4s3RH57QH6VCB9" class="link-button" target="_blank">
+                <i class="fas fa-map-marker-alt"></i>
+                آدرس گوگل مپ
+            </a>
+            
+            <a href="https://t.me/shervingold" class="link-button" target="_blank">
+                <i class="fab fa-telegram"></i>
+                کانال تلگرام
+            </a>
+            
+            <a href="https://wa.me/989367499217" class="link-button" target="_blank">
+                <i class="fab fa-whatsapp"></i>
+                واتساپ
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 گالری طلا شروین. تمامی حقوق محفوظ است.</p>
+        </div>
+    </div>
 
     <script>
         const API_URL = "https://BrsApi.ir/Api/Market/Gold_Currency.php?key=FreeE4uMPdiKOdaCSkCF5AsR7Qw1kh4w";
-        
-        async function testAPI() {
-            try {
-                const response = await fetch(API_URL);
-                const data = await response.json();
+        let currentPrices = {};
+        let pricePanelVisible = false;
+        let apiCallCount = 0;
+        let lastApiCallDate = null;
+        let lastUpdateTime = null;
+        let isActiveTime = false;
+        let cachedPrices = null;
+
+        // دریافت زمان تهران
+        function getTehranTime() {
+            const now = new Date();
+            // استفاده از زمان محلی (فرض بر اینکه سرور در ایران هست)
+            return now;
+        }
+
+        // بررسی اینکه آیا در بازه فعال هستیم یا نه
+        function checkActiveTime() {
+            const tehranTime = getTehranTime();
+            const hour = tehranTime.getHours();
+            const minute = tehranTime.getMinutes();
+            const currentTime = hour + minute / 60;
+            
+            // بازه فعال: 11:00 تا 20:00 (11 صبح تا 8 شب)
+            isActiveTime = (currentTime >= 11 && currentTime < 20);
+            
+            // آپدیت وضعیت نمایش
+            updateTimeStatus();
+            
+            return isActiveTime;
+        }
+
+        // آپدیت وضعیت زمان
+        function updateTimeStatus() {
+            const statusElement = document.getElementById('timeStatus');
+            const indicator = document.getElementById('priceIndicator');
+            
+            if (statusElement) {
+                const tehranTime = getTehranTime();
+                const timeString = tehranTime.toLocaleTimeString('fa-IR');
+                const hour = tehranTime.getHours();
                 
-                console.log('✅ داده‌های دریافتی از API:', data);
-                document.getElementById('result').innerHTML = 
-                    '<h3>داده‌های دریافتی:</h3><pre>' + JSON.stringify(data, null, 2) + '</pre>';
-                    
-            } catch (error) {
-                console.error('❌ خطا:', error);
-                document.getElementById('result').innerHTML = 'خطا: ' + error.message;
+                if (isActiveTime) {
+                    statusElement.innerHTML = `🟢 وضعیت: آنلاین (ساعت تهران: ${timeString})`;
+                    indicator.className = 'live-indicator';
+                } else {
+                    if (hour < 11) {
+                        statusElement.innerHTML = `⚫ وضعیت: آفلاین - به‌روزرسانی امروز ساعت ۱۱:۰۰`;
+                    } else {
+                        statusElement.innerHTML = `⚫ وضعیت: آفلاین - به‌روزرسانی فردا ساعت ۱۱:۰۰`;
+                    }
+                    indicator.className = 'offline-indicator';
+                }
             }
         }
-        
-        testAPI();
+
+        // بارگذاری قیمت‌های ذخیره شده
+        function loadCachedPrices() {
+            const cached = localStorage.getItem('cachedGoldPrices');
+            if (cached) {
+                const data = JSON.parse(cached);
+                const cacheTime = new Date(data.timestamp);
+                const now = new Date();
+                const hoursDiff = (now - cacheTime) / (1000 * 60 * 60);
+                
+                // اگر کمتر از 24 ساعت گذشته، استفاده کن
+                if (hoursDiff < 24) {
+                    cachedPrices = data;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // ذخیره قیمت‌ها
+        function savePricesToCache(prices) {
+            const cacheData = {
+                prices: prices,
+                timestamp: new Date().getTime()
+            };
+            localStorage.setItem('cachedGoldPrices', JSON.stringify(cacheData));
+            cachedPrices = cacheData;
+        }
+
+        // مدیریت تعداد درخواست‌های API
+        function initializeApiCounter() {
+            const today = new Date().toDateString();
+            const stored = localStorage.getItem('apiUsage');
+            
+            if (stored) {
+                const data = JSON.parse(stored);
+                if (data.date === today) {
+                    apiCallCount = data.count;
+                }
+            }
+            
+            lastApiCallDate = today;
+        }
+
+        function incrementApiCounter() {
+            const today = new Date().toDateString();
+            
+            if (lastApiCallDate !== today) {
+                apiCallCount = 0;
+                lastApiCallDate = today;
+            }
+            
+            apiCallCount++;
+            localStorage.setItem('apiUsage', JSON.stringify({
+                date: today,
+                count: apiCallCount
+            }));
+        }
+
+        // توابع کمکی
+        function formatPrice(price) {
+            if (!price) return '0';
+            const cleanPrice = String(price).replace(/,/g, '');
+            return new Intl.NumberFormat('fa-IR').format(Math.round(cleanPrice));
+        }
+
+        function getArrowFromChange(changePercent) {
+            if (!changePercent) return { symbol: '●', class: 'neutral' };
+            if (changePercent > 0) return { symbol: '▲', class: 'up' };
+            if (changePercent < 0) return { symbol: '▼', class: 'down' };
+            return { symbol: '●', class: 'neutral' };
+        }
+
+        // نمایش/مخفی کردن پنل قیمت
+        function togglePricePanel() {
+            const panel = document.getElementById('pricePanel');
+            pricePanelVisible = !pricePanelVisible;
+            
+            if (pricePanelVisible) {
+                panel.classList.add('active');
+                loadPrices();
+            } else {
+                panel.classList.remove('active');
+            }
+        }
+
+        // دریافت قیمت‌ها از API
+        async function fetchGoldPrices() {
+            try {
+                const response = await fetch(API_URL);
+                
+                if (!response.ok) {
+                    throw new Error(`خطا در دریافت داده‌ها: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // افزایش شمارنده درخواست
+                incrementApiCounter();
+                
+                return data;
+                
+            } catch (error) {
+                throw error;
+            }
+        }
+
+        // فیلتر و نمایش قیمت‌های طلا و سکه با ترتیب مشخص
+        function displayGoldPrices(data, isCached = false) {
+            if (!data || !data.gold) {
+                throw new Error('داده‌های طلا یافت نشد');
+            }
+
+            const goldItems = data.gold;
+            let html = '';
+
+            if (isCached) {
+                html += `
+                    <div class="offline-notice">
+                        <i class="fas fa-database"></i>
+                        <p>نمایش آخرین قیمت‌های ثبت شده</p>
+                        <p style="margin-top: 5px; font-size: 0.7rem;">
+                            به‌روزرسانی بعدی: فردا ساعت ۱۱:۰۰ صبح
+                        </p>
+                    </div>
+                `;
+            }
+
+            // بخش طلا و سکه
+            html += `
+                <div class="price-category">
+                    <div class="category-title">طلا و سکه</div>
+                    <div class="price-grid">
+            `;
+
+            // تعریف ترتیب مورد نظر
+            const desiredOrder = [
+                'انس طلا',
+                'طلای 18 عیار',
+                'سکه امامی',
+                'سکه بهار آزادی',
+                'نیم سکه',
+                'ربع سکه',
+                'سکه یک گرمی'
+            ];
+
+            // مرتب‌سازی آیتم‌ها بر اساس ترتیب مورد نظر
+            const sortedItems = [];
+            
+            desiredOrder.forEach(desiredName => {
+                const foundItem = goldItems.find(item => {
+                    const name = item.name || item.name_en || '';
+                    return name.includes(desiredName);
+                });
+                
+                if (foundItem) {
+                    sortedItems.push(foundItem);
+                }
+            });
+
+            // اگر آیتمی پیدا نشد، همه رو نمایش بده
+            const itemsToShow = sortedItems.length > 0 ? sortedItems : goldItems.slice(0, 7);
+
+            itemsToShow.forEach(item => {
+                const arrow = getArrowFromChange(item.change_percent);
+                const price = item.price ? formatPrice(item.price) : '0';
+                const unit = item.unit || '';
+                let name = item.name || item.name_en || 'نامشخص';
+                
+                // حذف "(دلار)" از نام انس طلا
+                if (name.includes('انس طلا')) {
+                    name = 'انس طلا';
+                }
+                
+                html += `
+                    <div class="price-item">
+                        <span class="price-label">${name}</span>
+                        <div class="price-value">
+                            <span class="price-arrow ${arrow.class}">${arrow.symbol}</span>
+                            ${price} ${unit}
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += `
+                    </div>
+                </div>
+            `;
+
+            return html;
+        }
+
+        // نمایش قیمت‌ها
+        function displayPrices(data, isCached = false) {
+            const container = document.getElementById('priceContainer');
+            const now = getTehranTime();
+            
+            if (!isCached) {
+                lastUpdateTime = now;
+                // ذخیره قیمت‌های جدید
+                savePricesToCache(data);
+            }
+            
+            try {
+                const html = displayGoldPrices(data, isCached);
+                container.innerHTML = html;
+                
+                const timeText = isCached ? 
+                    `آخرین بروزرسانی: ${lastUpdateTime ? lastUpdateTime.toLocaleTimeString('fa-IR') : 'ندارد'}` :
+                    `آخرین بروزرسانی: ${now.toLocaleTimeString('fa-IR')}`;
+                
+                document.getElementById('updateTime').textContent = timeText;
+                    
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // بارگذاری قیمت‌ها
+        async function loadPrices() {
+            const container = document.getElementById('priceContainer');
+            
+            // بررسی محدودیت API
+            if (apiCallCount >= 1500) {
+                container.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>محدودیت درخواست روزانه به پایان رسیده است</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // بررسی زمان فعال
+            checkActiveTime();
+            
+            if (isActiveTime) {
+                // زمان فعال - دریافت قیمت‌های جدید
+                try {
+                    const data = await fetchGoldPrices();
+                    displayPrices(data, false);
+                } catch (error) {
+                    // اگر خطا در دریافت داده جدید، از کش استفاده کن
+                    if (loadCachedPrices()) {
+                        displayPrices(cachedPrices.prices, true);
+                    } else {
+                        displayError('خطا در دریافت قیمت‌ها از API');
+                    }
+                }
+            } else {
+                // زمان غیرفعال - نمایش قیمت‌های ذخیره شده
+                if (loadCachedPrices()) {
+                    displayPrices(cachedPrices.prices, true);
+                } else {
+                    container.innerHTML = `
+                        <div class="offline-notice">
+                            <i class="fas fa-moon"></i>
+                            <p>ساعات کاری به پایان رسیده است</p>
+                            <p style="margin-top: 5px; font-size: 0.7rem;">
+                                هیچ قیمتی در حافظه ذخیره نشده است
+                            </p>
+                            <p style="margin-top: 5px; font-size: 0.7rem;">
+                                به‌روزرسانی بعدی: فردا ساعت ۱۱:۰۰ صبح
+                            </p>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // مدیریت خطا
+        function displayError(message) {
+            const container = document.getElementById('priceContainer');
+            container.innerHTML = `
+                <div class="error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>${message}</p>
+                    <button onclick="loadPrices()" style="
+                        background: #85d0cb;
+                        color: #000;
+                        border: none;
+                        padding: 8px 16px;
+                        border-radius: 6px;
+                        margin-top: 10px;
+                        cursor: pointer;
+                        font-family: 'Vazirmatn';
+                    ">تلاش مجدد</button>
+                </div>
+            `;
+        }
+
+        // شروع برنامه
+        document.addEventListener('DOMContentLoaded', function() {
+            // مقداردهی اولیه شمارنده API
+            initializeApiCounter();
+            
+            // بارگذاری قیمت‌های ذخیره شده
+            loadCachedPrices();
+            
+            // بررسی اولیه زمان
+            checkActiveTime();
+            
+            // به‌روزرسانی خودکار هر 1 دقیقه
+            setInterval(() => {
+                if (pricePanelVisible) {
+                    loadPrices();
+                }
+            }, 1 * 60 * 1000); // 1 دقیقه
+            
+            // بررسی تغییر روز (برای ریست شمارنده)
+            setInterval(() => {
+                initializeApiCounter();
+            }, 60 * 60 * 1000); // هر 1 ساعت چک کن
+            
+            // آپدیت وضعیت زمان هر 30 ثانیه
+            setInterval(() => {
+                checkActiveTime();
+            }, 30 * 1000);
+        });
     </script>
 </body>
 </html>
