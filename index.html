@@ -92,8 +92,8 @@
         .link-button {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
+            justify-content: center; /* تراز وسط */
+            gap: 12px; /* فاصله بین آیکون و متن */
             background: rgba(133, 208, 203, 0.15);
             color: #fff;
             text-decoration: none;
@@ -120,8 +120,9 @@
         .link-button i {
             font-size: 1.3rem;
             color: #85d0cb;
-            min-width: 24px; /* اضافه شده برای تراز بهتر */
-            text-align: center; /* اضافه شده برای تراز بهتر */
+            width: 24px;
+            text-align: center;
+            flex-shrink: 0;
         }
         
         /* استایل بخش قیمت‌ها */
@@ -134,8 +135,8 @@
         .price-button {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
+            justify-content: center; /* تراز وسط */
+            gap: 12px; /* فاصله بین آیکون و متن */
             background: rgba(133, 208, 203, 0.15);
             color: #fff;
             text-decoration: none;
@@ -163,8 +164,9 @@
         .price-button i {
             font-size: 1.3rem;
             color: #85d0cb;
-            min-width: 24px; /* اضافه شده برای تراز بهتر */
-            text-align: center; /* اضافه شده برای تراز بهتر */
+            width: 24px;
+            text-align: center;
+            flex-shrink: 0;
         }
         
         /* پنل قیمت‌ها */
@@ -352,12 +354,12 @@
             }
             
             .brand-logo {
-                width: 320px; /* افزایش سایز لوگو در موبایل */
-                margin-bottom: -60px; /* تنظیم مجدد فاصله */
+                width: 320px;
+                margin-bottom: -60px;
             }
             
             .brand-logo img {
-                width: 180%; /* کاهش عرض تصویر برای نمایش بهتر */
+                width: 180%;
             }
             
             .price-panel {
@@ -370,12 +372,12 @@
             
             .link-button, .price-button {
                 padding: 16px 20px;
-                gap: 10px; /* کاهش فاصله بین آیکون و متن برای نمایش بهتر */
+                gap: 10px;
             }
             
             .link-button i, .price-button i {
-                font-size: 1.2rem; /* تنظیم سایز آیکون‌ها */
-                min-width: 22px; /* تنظیم عرض حداقلی برای تراز بهتر */
+                font-size: 1.2rem;
+                width: 22px;
             }
             
             .price-label, .price-value {
@@ -385,21 +387,22 @@
 
         @media (max-width: 360px) {
             .brand-logo {
-                width: 280px; /* تنظیم سایز برای صفحه‌های کوچک‌تر */
+                width: 280px;
             }
             
             .brand-logo img {
-                width: 160%; /* تنظیم عرض تصویر برای صفحه‌های کوچک‌تر */
+                width: 160%;
             }
             
             .link-button, .price-button {
                 padding: 14px 16px;
-                font-size: 1rem; /* کاهش سایز فونت برای نمایش بهتر */
+                font-size: 1rem;
+                gap: 8px;
             }
             
             .link-button i, .price-button i {
-                font-size: 1.1rem; /* کاهش سایز آیکون‌ها */
-                min-width: 20px; /* کاهش عرض حداقلی */
+                font-size: 1.1rem;
+                width: 20px;
             }
         }
     </style>
@@ -458,6 +461,12 @@
                 آدرس گوگل مپ
             </a>
             
+            <!-- دکمه جدید اینستاگرام -->
+            <a href="https://instagram.com/your-instagram" class="link-button" target="_blank">
+                <i class="fab fa-instagram"></i>
+                اینستاگرام
+            </a>
+            
             <a href="https://t.me/shervingold" class="link-button" target="_blank">
                 <i class="fab fa-telegram"></i>
                 کانال تلگرام
@@ -487,7 +496,6 @@
         // دریافت زمان تهران
         function getTehranTime() {
             const now = new Date();
-            // استفاده از زمان محلی (فرض بر اینکه سرور در ایران هست)
             return now;
         }
 
@@ -538,12 +546,24 @@
                 const data = JSON.parse(cached);
                 const cacheTime = new Date(data.timestamp);
                 const now = new Date();
-                const hoursDiff = (now - cacheTime) / (1000 * 60 * 60);
                 
-                // اگر کمتر از 24 ساعت گذشته، استفاده کن
-                if (hoursDiff < 24) {
-                    cachedPrices = data;
+                // بررسی اینکه آیا کش مربوط به امروز بعد از ساعت 11 هست یا نه
+                const cacheHour = cacheTime.getHours();
+                const currentHour = now.getHours();
+                
+                // اگر کش مربوط به امروز بعد از ساعت 11 هست یا مربوط به روزهای قبل هست
+                // تا فردا ساعت 11 معتبر است
+                const cacheDate = cacheTime.toDateString();
+                const currentDate = now.toDateString();
+                
+                if (cacheDate === currentDate && cacheHour >= 11) {
+                    // کش امروز بعد از ساعت 11 - تا فردا ساعت 11 معتبر است
                     return true;
+                } else if (cacheDate !== currentDate) {
+                    // کش مربوط به روز قبل - اگر امروز قبل از ساعت 11 هست، معتبر است
+                    if (currentHour < 11) {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -644,6 +664,7 @@
             }
 
             const goldItems = data.gold;
+            const currencyItems = data.currency || [];
             let html = '';
 
             if (isCached) {
@@ -665,7 +686,7 @@
                     <div class="price-grid">
             `;
 
-            // تعریف ترتیب مورد نظر
+            // تعریف ترتیب مورد نظر برای طلا و سکه
             const desiredOrder = [
                 'انس طلا',
                 'طلای 18 عیار',
@@ -699,7 +720,7 @@
                 const unit = item.unit || '';
                 let name = item.name || item.name_en || 'نامشخص';
                 
-                // حذف "(دلار)" از نام انس طلا
+                // حذف کامل "(دلار)" از نام انس طلا
                 if (name.includes('انس طلا')) {
                     name = 'انس طلا';
                 }
@@ -719,6 +740,40 @@
                     </div>
                 </div>
             `;
+
+            // بخش ارزها (افزودن دلار)
+            const dollarItem = currencyItems.find(item => {
+                const name = item.name || item.name_en || '';
+                return name.includes('دلار') || name.includes('USD');
+            });
+
+            if (dollarItem) {
+                html += `
+                    <div class="price-category">
+                        <div class="category-title">ارز</div>
+                        <div class="price-grid">
+                `;
+
+                const arrow = getArrowFromChange(dollarItem.change_percent);
+                const price = dollarItem.price ? formatPrice(dollarItem.price) : '0';
+                const unit = dollarItem.unit || '';
+                let name = 'دلار آمریکا';
+                
+                html += `
+                    <div class="price-item">
+                        <span class="price-label">${name}</span>
+                        <div class="price-value">
+                            <span class="price-arrow ${arrow.class}">${arrow.symbol}</span>
+                            ${price} ${unit}
+                        </div>
+                    </div>
+                `;
+
+                html += `
+                        </div>
+                    </div>
+                `;
+            }
 
             return html;
         }
