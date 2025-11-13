@@ -740,7 +740,7 @@
                 container.innerHTML = displayGoldPrices(data);
                 const updateDate = isCached && cachedPrices ? new Date(cachedPrices.timestamp) : now;
                 document.getElementById('updateTime').textContent = 
-                    `آخرین بروزنش: ${updateDate ? toJalaliDate(updateDate) : 'ندارد'}`;
+                    `آخرین بروزرسانی: ${updateDate ? toJalaliDate(updateDate) : 'ندارد'}`;
             } catch (error) {
                 container.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i><p>${error.message}</p></div>`;
             }
