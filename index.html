@@ -615,9 +615,15 @@
             itemsToShow.forEach(item => {
                 const arrow = getArrowFromChange(item.change_percent);
                 const price = formatPrice(item.price);
-                const unit = item.unit || '';
                 let name = item.name || 'نامشخص';
-                if (name.includes('انس طلا')) name = 'انس طلا';
+                let unit = item.unit || '';
+                
+                // برای انس طلا، واحد را حذف می‌کنیم و فقط عدد نمایش داده می‌شود
+                if (name.includes('انس طلا')) {
+                    name = 'انس طلا';
+                    unit = ''; // واحد دلار حذف می‌شود
+                }
+                
                 html += `<div class="price-item"><span class="price-label">${name}</span><div class="price-value"><span class="price-arrow ${arrow.class}">${arrow.symbol}</span>${price} ${unit}</div></div>`;
             });
 
