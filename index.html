@@ -496,14 +496,17 @@
             </div>
         </div>
         
+        <!-- ==== دکمه‌ها و پنل قیمت ==== -->
         <div class="links">
+            <!-- دکمه قیمت لحظه‌ای - مستقیم زیر links -->
+            <div class="price-button" onclick="togglePricePanel()">
+                <i class="fas fa-chart-line"></i>
+                <span>قیمت لحظه‌ای</span>
+                <div id="priceIndicator" class="live-indicator"></div>
+            </div>
+
+            <!-- پنل قیمت - داخل price-section -->
             <div class="price-section">
-                <div class="price-button" onclick="togglePricePanel()">
-                    <i class="fas fa-chart-line"></i>
-                    <span>قیمت لحظه‌ای</span>
-                    <div id="priceIndicator" class="live-indicator"></div>
-                </div>
-                
                 <div class="price-panel" id="pricePanel">
                     <div class="price-header">
                         <i class="fas fa-coins"></i>
@@ -526,6 +529,7 @@
                 </div>
             </div>
             
+            <!-- بقیه دکمه‌ها -->
             <a href="https://maps.app.goo.gl/yXq4s3RH57QH6VCB9" class="link-button" target="_blank">
                 <i class="fas fa-map-marker-alt"></i>
                 <span>آدرس گالری</span>
@@ -736,7 +740,7 @@
                 container.innerHTML = displayGoldPrices(data);
                 const updateDate = isCached && cachedPrices ? new Date(cachedPrices.timestamp) : now;
                 document.getElementById('updateTime').textContent = 
-                    `آخرین بروزرسانی: ${updateDate ? toJalaliDate(updateDate) : 'ندارد'}`;
+                    `آخرین بروزنش: ${updateDate ? toJalaliDate(updateDate) : 'ندارد'}`;
             } catch (error) {
                 container.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i><p>${error.message}</p></div>`;
             }
