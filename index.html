@@ -42,9 +42,9 @@
         }
         
         .brand-logo {
-            width: 200px;
+            width: 280px;
             height: auto;
-            margin-bottom: -20px;
+            margin-bottom: -25px;
             display: flex;
             justify-content: center;
         }
@@ -313,7 +313,7 @@
             body {
                 padding: 15px;
                 justify-content: flex-start;
-                padding-top: 30px;
+                padding-top: 20px;
             }
             
             .container { 
@@ -322,21 +322,21 @@
             }
             
             .logo-container {
-                margin-bottom: 25px;
+                margin-bottom: 30px;
             }
             
             .brand-logo { 
-                width: 180px; 
-                margin-bottom: -15px; 
+                width: 320px; 
+                margin-bottom: -20px; 
             }
             
             .logo h1 {
-                font-size: 1.5rem;
+                font-size: 1.8rem;
                 margin-bottom: 6px;
             }
             
             .logo p {
-                font-size: 0.8rem;
+                font-size: 0.9rem;
             }
             
             .links {
@@ -389,20 +389,20 @@
         @media (max-width: 360px) {
             body {
                 padding: 12px;
-                padding-top: 20px;
+                padding-top: 15px;
             }
             
             .brand-logo { 
-                width: 160px; 
-                margin-bottom: -10px;
+                width: 280px; 
+                margin-bottom: -15px;
             }
             
             .logo h1 {
-                font-size: 1.3rem;
+                font-size: 1.6rem;
             }
             
             .logo p {
-                font-size: 0.75rem;
+                font-size: 0.85rem;
             }
             
             .link-button, 
@@ -424,11 +424,11 @@
         /* برای صفحه‌های خیلی کوچک */
         @media (max-width: 320px) {
             .brand-logo { 
-                width: 140px; 
+                width: 260px; 
             }
             
             .logo h1 {
-                font-size: 1.2rem;
+                font-size: 1.5rem;
             }
             
             .link-button, 
@@ -525,6 +525,14 @@
         let isActiveTime = false;
         let cachedPrices = null;
 
+        // تابع تبدیل اعداد انگلیسی به فارسی
+        function toPersianNumbers(num) {
+            const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+            return num.toString().replace(/\d/g, function(match) {
+                return persianNumbers[parseInt(match)];
+            });
+        }
+
         // تاریخ: "۲۲ آبان ۱۴۰۴ - ۱۲:۱۳"
         function toJalaliDate(date) {
             if (!date || isNaN(date)) return 'ندارد';
@@ -612,15 +620,16 @@
         }
 
         function formatPrice(price) {
-            if (!price) return '0';
+            if (!price) return '۰';
             return new Intl.NumberFormat('fa-IR').format(Math.round(String(price).replace(/,/g, '')));
         }
 
-        // تابع جدید برای انس طلا بدون ویرگول
+        // تابع جدید برای انس طلا بدون ویرگول و با اعداد فارسی
         function formatOuncePrice(price) {
-            if (!price) return '0';
-            // حذف ویرگول و نمایش عدد خالص
-            return Math.round(String(price).replace(/,/g, '')).toString();
+            if (!price) return '۰';
+            // حذف ویرگول و نمایش عدد خالص + تبدیل به فارسی
+            const rawNumber = Math.round(String(price).replace(/,/g, '')).toString();
+            return toPersianNumbers(rawNumber);
         }
 
         function getArrowFromChange(changePercent) {
@@ -666,10 +675,10 @@
                 let name = item.name || 'نامشخص';
                 let price, unit = '';
                 
-                // برای انس طلا، واحد را حذف می‌کنیم و فقط عدد نمایش داده می‌شود
+                // برای انس طلا، واحد را حذف می‌کنیم و فقط عدد فارسی نمایش داده می‌شود
                 if (name.includes('انس طلا')) {
                     name = 'انس طلا';
-                    price = formatOuncePrice(item.price); // بدون ویرگول
+                    price = formatOuncePrice(item.price); // بدون ویرگول و با اعداد فارسی
                     unit = ''; // واحد دلار حذف می‌شود
                 } else {
                     price = formatPrice(item.price);
